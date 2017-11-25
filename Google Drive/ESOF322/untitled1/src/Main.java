@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 public class Main {
     public static void main(String[] args) {
+        Schedule schedule = new Schedule();
         try {
             Workbook wb = WorkbookFactory.create(new File("/Users/Timothy.Osen/Downloads/11-20-2017.xls"));
             Sheet mySheet = wb.getSheetAt(0);
@@ -17,6 +18,7 @@ public class Main {
             Iterator<Row> rowIterator = mySheet.rowIterator();
             System.out.println(mySheet.getRow(1).getCell(0));
             int i = 0;
+            int j = 0;
             columns.add(i);
             while (rowIterator.hasNext())
             {
@@ -41,19 +43,22 @@ public class Main {
                         }
                         if (cell.getStringCellValue().equals(""))
                         {
-                           // System.out.print("          ");
+                           System.out.print("          ");
                         }
                         switch (cell.getCellType())
                         {
                             case Cell.CELL_TYPE_NUMERIC:
-                                System.out.print(cell.getColumnIndex()+" "+cell.getNumericCellValue() + "\t");
+                                schedule.setDate(i+1,j,String.valueOf(cell.getNumericCellValue()));
+                                System.out.print(cell.getNumericCellValue() + "\t");
                                 break;
                             case Cell.CELL_TYPE_STRING:
+                                schedule.setDate(i+1,j,cell.getStringCellValue());
                                 System.out.print(cell.getStringCellValue() + "\t");
                                 break;
                         }
                     }
                     System.out.println("");
+                    j = j+1;
 
                 }
 
@@ -61,6 +66,7 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        schedule.printSchedule();
 
     }
 }
